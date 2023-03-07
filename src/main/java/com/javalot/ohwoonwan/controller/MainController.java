@@ -2,11 +2,8 @@ package com.javalot.ohwoonwan.controller;
 
 import com.javalot.ohwoonwan.domain.*;
 import com.javalot.ohwoonwan.repository.*;
-import jakarta.annotation.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.expression.ExpressionException;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.ErrorResponseException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Optional;
+
 
 @Controller // This means that this class is a Controller
 @RequestMapping(path="/demo") // This means URL's start with /demo (after Application path)
@@ -26,36 +24,27 @@ public class MainController {
 
     @PostMapping(path="/addUser") // Map ONLY POST Requests
     public @ResponseBody String addNewUser (@RequestParam String name, @RequestParam String nickName
-            , @RequestParam String email, @RequestParam String phone, @RequestParam String password, @RequestParam Boolean gender ) {
+            , @RequestParam String email, @RequestParam String phone, @RequestParam String password, @RequestParam Boolean gender, @RequestParam Boolean isAdmin ) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
 
-        User n = new User();
-        n.setName(name);
-        n.setNickName(nickName);
-        n.setEmail(email);
-        n.setPhone(phone);
-        n.setPassword(password);
-        n.setGender(gender);
+        User n = new User(name, nickName, phone, password, email, gender, isAdmin);
         userRepository.save(n);
         return "User Saved";
     }
 
     @PostMapping(path="/addPost") // Map ONLY POST Requests
     public @ResponseBody String addNewPost (@RequestParam String category, @RequestParam String title
-            , @RequestParam String content, @RequestParam Integer createdBy, @RequestParam @Nullable Integer updatedBy ) {
+            , @RequestParam String content, @RequestParam Integer createdBy ) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
 
-        Post p = new Post();
-        p.setCategory(category);
-        p.setTitle(title);
-        p.setContent(content);
-        User user = userRepository.findById(createdBy).orElseThrow(() -> new ExpressionException("Not found Comment with id = " + createdBy));
-        p.setCreatedBy(user);
-        if (updatedBy != null) {
-            p.setUpdatedBy(user);
+        String createdByStr = String.valueOf(createdBy);
+        Optional<User> creator = userRepository.findById(createdBy);
+        if (creator.isEmpty()) {
+            return "Not found user id = " + createdByStr;
         }
+        Post p = new Post(category, title, content, creator.get());
         postRepository.save(p);
         return "Post Saved";
     }

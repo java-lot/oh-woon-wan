@@ -1,13 +1,32 @@
 package com.javalot.ohwoonwan.domain;
 
 import jakarta.persistence.*;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 
 @Entity // This tells Hibernate to make a table out of this class
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@Getter
+@Setter
+@ToString
 public class User extends TimestampEntity {
+    public User(String name, String nickName, String phone, String password, String email, Boolean gender, Boolean isAdmin) {
+        super();
+        this.name = name;
+        this.nickName = nickName;
+        this.phone = phone;
+        this.password = password;
+        this.email = email;
+        this.gender = gender;
+        this.isAdmin = isAdmin;
+    }
+    public User() {}
+
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
+    @Setter(AccessLevel.PROTECTED)
     private Integer id;
 
     @Column(length = 50, nullable = false)
@@ -36,7 +55,6 @@ public class User extends TimestampEntity {
     @ColumnDefault("false")
     private Boolean isBlocked;
 
-
     public enum BlockReason {
         ABUSE,
         ADVERTISING
@@ -49,51 +67,4 @@ public class User extends TimestampEntity {
     @Column(name="`is_deleted`", columnDefinition = "TINYINT", length = 1)
     @ColumnDefault("false")
     private Boolean isDeleted;
-
-
-    public Integer getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getNickName() {
-        return nickName;
-    }
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Boolean getGender() {
-        return gender;
-    }
-    public void setGender(Boolean gender) {
-        this.gender = gender;
-    }
 }
