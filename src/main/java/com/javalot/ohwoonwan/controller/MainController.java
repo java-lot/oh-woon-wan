@@ -1,19 +1,16 @@
 package com.javalot.ohwoonwan.controller;
 
 import com.javalot.ohwoonwan.domain.*;
+import com.javalot.ohwoonwan.model.JsonResult;
 import com.javalot.ohwoonwan.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
 
-@Controller // This means that this class is a Controller
+@RestController // This means that this class is a Controller
 @RequestMapping(path="/demo") // This means URL's start with /demo (after Application path)
 public class MainController {
 
@@ -61,4 +58,11 @@ public class MainController {
     public @ResponseBody Iterable<Post> getAllPosts() {
         return postRepository.findAll();
     }
+
+    @GetMapping(path="/allUsers/v2")
+    public JsonResult getAllUsers2() {
+        //return JsonResult.ok("data");
+        return JsonResult.ok(userRepository.findAll());
+    }
+
 }
