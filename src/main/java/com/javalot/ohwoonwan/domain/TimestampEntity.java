@@ -9,14 +9,14 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public class TimestampEntity {
-    @Column(name = "`create_at`", nullable = false, updatable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdAt = LocalDateTime.now();
-    @Column(name = "`update_at`")
+    @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedBy
     private LocalDateTime updatedAt;
-    @Column(name = "`deleted_at`")
+    @Column(name = "deleted_at")
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime deletedAt;
 }
