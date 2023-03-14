@@ -31,10 +31,10 @@ public class Post extends TimestampEntity {
     private Integer view;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "`created_by`", referencedColumnName = "id")
+    @JoinColumn(name = "created_by", referencedColumnName = "id")
     private User createdBy;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "`updated_by`", referencedColumnName = "id")
+    @JoinColumn(name = "updated_by", referencedColumnName = "id")
     private User updatedBy;
 }

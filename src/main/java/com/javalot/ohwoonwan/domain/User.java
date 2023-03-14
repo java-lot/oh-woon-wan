@@ -32,7 +32,7 @@ public class User extends TimestampEntity {
     @Column(length = 50, nullable = false)
     private  String name;
 
-    @Column(name="`nick_name`", length = 50, unique = true)
+    @Column(name="nick_name", length = 50, unique = true)
     private String nickName;
 
     @Column(length = 50, nullable = false, unique = true)
@@ -47,11 +47,11 @@ public class User extends TimestampEntity {
     @Column(nullable = false, columnDefinition = "TINYINT", length = 1)
     private Boolean gender;
 
-    @Column(name="`is_admin`", columnDefinition = "TINYINT", length = 1)
+    @Column(name="is_admin", columnDefinition = "TINYINT", length = 1)
     @ColumnDefault("false")  // ColumnDefault: create 문에서 default 값을 정해줍니다
     private Boolean isAdmin;
 
-    @Column(name="`is_blocked`", columnDefinition = "TINYINT", length = 1)
+    @Column(name="is_blocked", columnDefinition = "TINYINT", length = 1)
     @ColumnDefault("false")
     private Boolean isBlocked;
 
@@ -59,12 +59,12 @@ public class User extends TimestampEntity {
         ABUSE,
         ADVERTISING
     }
-    @Column(name="`block_reason`", columnDefinition = "ENUM('ABUSE','ADVERTISING')")
+    @Column(name="block_reason", columnDefinition = "ENUM('ABUSE','ADVERTISING')")
     @Enumerated(EnumType.STRING)
     @ColumnDefault("null")
     private BlockReason blockReason;
 
-    @Column(name="`is_deleted`", columnDefinition = "TINYINT", length = 1)
+    @Column(name="is_deleted", columnDefinition = "TINYINT", length = 1)
     @ColumnDefault("false")
     private Boolean isDeleted;
 }
