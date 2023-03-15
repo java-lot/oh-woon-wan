@@ -5,25 +5,29 @@ import lombok.*;
 
 
 @Entity
-@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Getter
-@Setter
 @ToString
+@Table(name = "post")
 public class Post extends TimestampEntity {
+    @Builder
     public Post(String category, String title, String content, User creator) {
-        super();
         this.category = category;
         this.title = title;
         this.content = content;
         this.createdBy = creator;
     }
-    public Post() {}
+
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.PROTECTED)
-    private Integer id;
+    private Long id;
 
     private String category;
     private String title;

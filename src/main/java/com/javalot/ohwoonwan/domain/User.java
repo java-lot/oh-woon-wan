@@ -9,9 +9,10 @@ import org.hibernate.annotations.ColumnDefault;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Getter
-@Setter
 @ToString
+@Table(name = "user")
 public class User extends TimestampEntity {
+    @Builder
     public User(String name, String nickName, String phone, String password, String email, Boolean gender, Boolean isAdmin) {
         super();
         this.name = name;
