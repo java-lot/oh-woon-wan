@@ -1,12 +1,10 @@
 package com.javalot.ohwoonwan.controller;
 
+import com.javalot.ohwoonwan.dto.PostUpdateRequestDto;
 import com.javalot.ohwoonwan.model.JsonResult;
 import com.javalot.ohwoonwan.service.PostService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -23,4 +21,13 @@ public class PostController {
         return JsonResult.ok(postService.findAllDesc());
     }
 
+    @DeleteMapping("post/{id}")
+    public JsonResult delete(@PathVariable Long id) {
+        return JsonResult.ok(postService.delete(id));
+    }
+
+    @PutMapping("post/{id}")
+    public JsonResult update(@PathVariable Long id, @RequestBody PostUpdateRequestDto requestDto) {
+        return JsonResult.ok(postService.update(id, requestDto));
+    }
 }
