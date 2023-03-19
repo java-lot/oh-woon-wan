@@ -51,12 +51,13 @@ public class MainController {
     @GetMapping(path="/allUsers")
     public @ResponseBody Iterable<User> getAllUsers() {
         // This returns a JSON or XML with the users
+        System.out.println("users");
         return userRepository.findAll();
     }
 
     @GetMapping(path="/allPosts")
-    public @ResponseBody Iterable<Post> getAllPosts() {
-        return postRepository.findAll();
+    public JsonResult getAllPosts() {
+        return JsonResult.ok(postRepository.findAll());
     }
 
     @GetMapping(path="/allUsers/v2")
