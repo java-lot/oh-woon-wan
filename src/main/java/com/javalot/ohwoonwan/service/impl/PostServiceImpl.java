@@ -3,6 +3,7 @@ package com.javalot.ohwoonwan.service.impl;
 import com.javalot.ohwoonwan.domain.Post;
 import com.javalot.ohwoonwan.dto.PostListResponseDto;
 import com.javalot.ohwoonwan.dto.PostResponseDto;
+import com.javalot.ohwoonwan.dto.PostUpdateRequestDto;
 import com.javalot.ohwoonwan.repository.PostRepository;
 import com.javalot.ohwoonwan.service.PostService;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +30,25 @@ public class PostServiceImpl implements PostService {
         return postRepository.findAllByOrderByIdDesc().stream()
                 .map(PostListResponseDto::new)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public Object delete(Long id) {
+        Post post = postRepository.findById(id).orElseThrow
+                (() -> new IllegalArgumentException("Not found post id = " + id));
+        postRepository.delete(post);
+        return null;
+    }
+
+    @Transactional
+    public Object update(Long id, PostUpdateRequestDto requestDto) {
+        Post post = postRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("Not found post id = " + id));
+
+        post.update(requestDto.getCategory(),
+                requestDto.getTitle(),
+                requestDto.getContent());
+        return id;
     }
 
 }

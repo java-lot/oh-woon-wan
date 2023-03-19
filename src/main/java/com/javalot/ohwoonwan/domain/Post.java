@@ -19,7 +19,8 @@ public class Post extends TimestampEntity {
         this.createdBy = creator;
     }
 
-    public void update(String title, String content) {
+    public void update(String category, String title, String content) {
+        this.category = category;
         this.title = title;
         this.content = content;
     }
