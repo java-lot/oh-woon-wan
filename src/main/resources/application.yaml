@@ -23,3 +23,10 @@ spring:
         springframework:
           orm:
             jpa: DEBUG
+
+  messages:
+    basename: classpath:/message/message
+    encoding: UTF-8
+    cache-duration: -1
+  web:
+    locale: ko_KR

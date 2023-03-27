@@ -1,6 +1,8 @@
 package com.javalot.ohwoonwan.repository;
 
 import java.util.List;
+
+import com.javalot.ohwoonwan.model.BaseModel;
 import org.springframework.data.repository.CrudRepository;
 import com.javalot.ohwoonwan.domain.User;
 
@@ -9,5 +11,11 @@ import com.javalot.ohwoonwan.domain.User;
 
 
 public interface UserRepository extends CrudRepository<User, Integer> {
+
+    Boolean existsUserByEmail(String email);
+
+    Boolean existsUserByPhone(String phone);
+
+    Boolean existsUserByNickName(String nickName);
 
 }

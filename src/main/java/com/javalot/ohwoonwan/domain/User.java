@@ -10,6 +10,7 @@ import org.hibernate.annotations.ColumnDefault;
 @EqualsAndHashCode(callSuper = true)
 @Getter
 @ToString
+@Setter
 @Table(name = "user")
 public class User extends TimestampEntity {
     @Builder
