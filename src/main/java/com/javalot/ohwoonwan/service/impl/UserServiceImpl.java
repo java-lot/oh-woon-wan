@@ -22,28 +22,33 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-
     @Override
     public Boolean addUser(JoinUserDto joinUserDto) {
 
-        joinUserDto.setPassword(BCrypt.hashpw(joinUserDto.getPassword(), BCrypt.gensalt()));
-        User saveUser = joinUserDto.toEntity(joinUserDto);
-        saveUser.setIsAdmin(false);
-        saveUser.setIsBlocked(false);
+        String bcyptedPassword = BCrypt.hashpw(joinUserDto.getPassword(), BCrypt.gensalt());
+
+        User saveUser = User.builder().
+                password(bcyptedPassword).
+                name(joinUserDto.getName()).
+                nickName(joinUserDto.getNickName()).
+                email(joinUserDto.getEmail()).
+                gender(joinUserDto.getGender()).
+                phone(joinUserDto.getPhone()).
+                build();
+
+        if (userRepository.existsUserByEmail(saveUser.getEmail())) {
+            throw new BadRequestException("ER-1111");
+        }
+
+        if (userRepository.existsUserByPhone(saveUser.getPhone())) {
+            throw new BadRequestException("ER-1112");
+        }
+
+        if (userRepository.existsUserByNickName(saveUser.getNickName())) {
+            throw new BadRequestException("ER-1113");
+        }
 
         try {
-
-            if (userRepository.existsUserByEmail(joinUserDto.getEmail())) {
-                throw new BadRequestException("ER-1111");
-            }
-
-            if (userRepository.existsUserByPhone(joinUserDto.getPhone())) {
-                throw new BadRequestException("ER-1112");
-            }
-
-            if (userRepository.existsUserByNickName(joinUserDto.getNickName())) {
-                throw new BadRequestException("ER-1113");
-            }
             userRepository.save(saveUser);
         } catch (Exception e) {
             log.info("addUser Error ::: {}", e.getMessage());

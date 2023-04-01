@@ -22,7 +22,7 @@ public class JoinUserDto {
 
 
     //dto -> entity
-    public  User toEntity(JoinUserDto userDto) {
+    public User toEntity(JoinUserDto userDto) {
         return User.builder().
                 name(userDto.name).
                 nickName(userDto.nickName).

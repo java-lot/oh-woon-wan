@@ -23,6 +23,8 @@ dependencies {
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation group: 'org.mindrot', name: 'jbcrypt', version: '0.4'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '3.0.2'
+
 }
 
 tasks.named('test') {
