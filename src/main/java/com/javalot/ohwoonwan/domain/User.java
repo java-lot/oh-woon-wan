@@ -24,7 +24,7 @@ public class User extends TimestampEntity {
         this.gender = gender;
         this.isAdmin = isAdmin;
     }
-    public User() {}
+    public User(Integer creator) {}
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)

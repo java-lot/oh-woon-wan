@@ -1,6 +1,7 @@
 package com.javalot.ohwoonwan.service.impl;
 
 import com.javalot.ohwoonwan.domain.Post;
+import com.javalot.ohwoonwan.dto.PostCreateRequestDto;
 import com.javalot.ohwoonwan.dto.PostListResponseDto;
 import com.javalot.ohwoonwan.dto.PostResponseDto;
 import com.javalot.ohwoonwan.dto.PostUpdateRequestDto;
@@ -30,6 +31,12 @@ public class PostServiceImpl implements PostService {
         return postRepository.findAllByOrderByIdDesc().stream()
                 .map(PostListResponseDto::new)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public Long create(PostCreateRequestDto requestDto) {
+
+        return postRepository.save(requestDto.toEntity()).getId();
     }
 
     @Transactional
