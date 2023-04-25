@@ -1,10 +1,13 @@
 package com.javalot.ohwoonwan.service.impl;
 
 import com.javalot.ohwoonwan.domain.Post;
+import com.javalot.ohwoonwan.domain.User;
+import com.javalot.ohwoonwan.dto.PostCreateRequestDto;
 import com.javalot.ohwoonwan.dto.PostListResponseDto;
 import com.javalot.ohwoonwan.dto.PostResponseDto;
 import com.javalot.ohwoonwan.dto.PostUpdateRequestDto;
 import com.javalot.ohwoonwan.repository.PostRepository;
+import com.javalot.ohwoonwan.repository.UserRepository;
 import com.javalot.ohwoonwan.service.PostService;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +20,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
     public PostResponseDto findById(Long id) {
@@ -30,6 +34,18 @@ public class PostServiceImpl implements PostService {
         return postRepository.findAllByOrderByIdDesc().stream()
                 .map(PostListResponseDto::new)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public Object create(PostCreateRequestDto requestDto) {
+        User user = getUser(requestDto.getCreatorId());
+        postRepository.save(requestDto.toPost(user));
+        return null;
+    }
+
+    private User getUser(Integer creatorId) {
+        return userRepository.findById(creatorId)
+                .orElseThrow(() -> new IllegalArgumentException("Not found creator id = " + creatorId));
     }
 
     @Transactional

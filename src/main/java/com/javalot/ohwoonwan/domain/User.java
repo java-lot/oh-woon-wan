@@ -7,6 +7,7 @@ import org.hibernate.annotations.ColumnDefault;
 
 @Entity // This tells Hibernate to make a table out of this class
 @AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Getter
 @ToString
@@ -23,7 +24,7 @@ public class User extends TimestampEntity {
         this.gender = gender;
         this.isAdmin = isAdmin;
     }
-    public User() {}
+    public User(Integer creator) {}
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
