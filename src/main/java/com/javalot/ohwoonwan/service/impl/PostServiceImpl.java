@@ -9,6 +9,7 @@ import com.javalot.ohwoonwan.dto.PostUpdateRequestDto;
 import com.javalot.ohwoonwan.repository.PostRepository;
 import com.javalot.ohwoonwan.repository.UserRepository;
 import com.javalot.ohwoonwan.service.PostService;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,11 +23,16 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
-    @Transactional(readOnly = true)
+    @Transactional
     public PostResponseDto findById(Long id) {
         Post post = postRepository.findById(id).orElseThrow
                 (() -> new IllegalArgumentException("Not found post id = " + id));
+        increaseView(post);
         return new PostResponseDto(post);
+    }
+
+    private void increaseView(@NotNull Post post) {
+        post.addView();
     }
 
     @Transactional(readOnly = true)
