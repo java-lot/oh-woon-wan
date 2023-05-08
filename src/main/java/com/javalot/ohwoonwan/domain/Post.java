@@ -12,6 +12,11 @@ import lombok.*;
 @ToString
 @Table(name = "post")
 public class Post extends TimestampEntity {
+    @PrePersist
+    public void prePersist(){
+        this.view = this.view == null ? 0 : this.view;
+    }
+
     @Builder
     public Post(String category, String title, String content, User creator) {
         this.category = category;
@@ -24,6 +29,10 @@ public class Post extends TimestampEntity {
         this.category = category;
         this.title = title;
         this.content = content;
+    }
+
+    public void addView() {
+        this.view++;
     }
 
     @Id
